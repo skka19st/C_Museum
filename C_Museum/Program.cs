@@ -2,7 +2,7 @@
 
 namespace C_Museum
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -18,27 +18,34 @@ namespace C_Museum
             while (fortsatt) {
                 // börja med blank skärm
                 Console.Clear();
+
                 // läs in info om nytt rum från kartan
                 cKarta karta = new cKarta(nyttRum);
 
                 // info om valt rum 
-                VisaRumInfo(karta);               
+                VisaRumInfo(karta);   
                  
-                // val av nytt rum, "0" = avslut                
-                Console.WriteLine("Vart vill du gå nu? ");
-                Console.Write("Ange önskat nr. [0] för att avsluta: ");
-                nyttRum = Console.ReadLine(); 
-                if (nyttRum == "0") {
+                // val av nytt rum, "0" = avslut 
+                // continue = hoppar över resten av detta loop-varv            
+                string nyttVal = HemtaNyttVal();
+                if (nyttVal == "0") {
+                    nyttRum = nyttVal;
                     fortsatt = false; 
-                    return;
+                    continue;
+                } 
+
+                // nytt val kontrolleras
+                // om ej giltigt, stanna kvar i samma rum
+                // continue = hoppar över resten av detta loop-varv 
+                // nuvarande rum är lagrat först i listan
+                bool giltigtVal = karta.KontrolleraVal(nyttVal);
+                if (!giltigtVal) {
+                    nyttRum = karta.rumLista[0].RumId;
+                    continue;
                 }
 
-                // önskat rum måste finnas i anslutning till nuvarande
-                // i annat fall sker ingen förflyttning
-                bool giltigtVal = cKarta.GiltigtVal(nyttRum);
-                if (!giltigtVal) {
-                    nyttRum = karta.openRoom[0].RumId;
-                }
+                // hämta rumId för vald rad
+                nyttRum = karta.GetNextRoom(nyttVal);
             }         
         }
 
@@ -61,19 +68,27 @@ namespace C_Museum
         }
 
         // utskrift av information om rummet
-        static void VisaRumInfo(cKarta karta) {
+        static public void VisaRumInfo(cKarta karta) {
             Console.WriteLine(" ");
-            Console.WriteLine("Välkommen till " + karta.openRoom[0].Beskrivning);
+            Console.WriteLine("Välkommen till " + karta.rumLista[0].Beskrivning);
             Console.WriteLine("");
 
             // lista på möjliga val
             // nuvarande position finns i första raden (ind=1)
             Console.WriteLine("Gå vidare till: ");
-            for (int ind = 1 ; ind < karta.openRoom.Count ; ind++) {
+            for (int ind = 1 ; ind < karta.rumLista.Count ; ind++) {
                 Console.Write("val " + ind + ": ");
-                Console.WriteLine(karta.openRoom[ind].Beskrivning);                
-            }
-            Console.WriteLine(" ");            
-        }     
+                Console.WriteLine(karta.rumLista[ind].Beskrivning);                
+            } 
+        }  
+
+        static string HemtaNyttVal() {
+            Console.WriteLine(" ");              
+            Console.WriteLine("Vart vill du gå nu? ");
+            Console.Write("Ange önskat nr [0] för att avsluta: ");
+            string nyttVal = Console.ReadLine(); 
+            return nyttVal;
+        }  
+
     }
 }
