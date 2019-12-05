@@ -34,14 +34,14 @@ namespace C_Museum
             get { return rumId; } 
             set {  
                 rumId = value; 
-                beskrivning = GetBeskrivning(rumId); 
+            //eskrivning = GetBeskrivning(rumId);
             } 
         }    
 
         // beskrivning - läsbehörighet från andra klasser
         public string Beskrivning { 
             get { return beskrivning; } 
-        }   
+        }  
 
         // returnerar rummets beskrivning
         // beskrivning ligger lagrat hårdkodat i en array 
@@ -55,6 +55,7 @@ namespace C_Museum
             for (int ind = 0 ; ind < antRad ; ind++) {
                 if (rumsBeskrivning[ind,0] == id) {
                     text = rumsBeskrivning[ind,1];
+                    return text;
                 }
             }
 
