@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 namespace C_Museum
 {    
-    // klass cRum innehåller id för rum och rummets beskrivning
+    // klass cKarta lagrar planlösningen (i en array)
+    // skapar en lista över det rum man för närvarande befinner
+    // sig i, och möjliga vägar att gå
     public class cKarta {
         // array som visar kopplingen mellan de olika rummen
         // visar: nuvarande rum, angränsande rum
@@ -35,30 +37,30 @@ namespace C_Museum
             // {"8", "4"}   // Vita rummet --> Röda rummet
         };
 
+        // instans-variabel
         public List<cRum> rumLista = new List<cRum>();
 
         // constructor 
-        // nuvarande position måste anges, läggs först i listan
         // rumId "0" innebär utgång, ingen karta skapas
+        // nuvarande position måste anges, läggs först i listan
         // listan fylls på med ev angränsande rum
         public cKarta(string id) {
             if (id != "0") {
                 cRum rum = new cRum(id);
                 rumLista.Add(rum);
-                GetOpenRooms();
+                GetOpenRooms(id);
             }
         }
 
-        // hämta data om angränsande rum (möjlig förflyttning)
-        private void GetOpenRooms() {
+        // hämta data om angränsande rum (öppen dörr)
+        private void GetOpenRooms(string rumId) {
             // array-uppbyggnaden = [rad, kolumn]
             // antal rader i arrayen = antalet element / antal kolumner
-            int antRad = (kartBeskrivning.Length / kartBeskrivning.Rank);            
-            
-            string position = rumLista[0].RumId;
+            int antRad = (kartBeskrivning.Length / kartBeskrivning.Rank);  
+
             for (int ind = 0 ; ind < antRad ; ind++) {
                 // en ny rad i listan för varje möjlig förflyttning
-                if (kartBeskrivning[ind,0] == position) {
+                if (kartBeskrivning[ind,0] == rumId) {
                     cRum rum = new cRum(kartBeskrivning[ind,1]);
                     rumLista.Add(rum);                  
                 }
@@ -69,7 +71,7 @@ namespace C_Museum
         public bool KontrolleraVal(string valdRad) {
             // måste vara numeriskt
             // TryParse returnerar 'true' om värdet är numeriskt
-            // (variabel som kontrolleras, parameter som initieras)
+            // 'valdRad' = ska kontrolleras, 'radnr' = resultatet
             // observera: villkoret är 'if not'
             int radnr;
             if (!(Int32.TryParse(valdRad, out radnr))) {
@@ -87,9 +89,8 @@ namespace C_Museum
         } 
 
         // hämta rumId för den rad som användaren valt
-        // i rumlistan finns endast de rum som är valbara
         // TryParse returnerar 'true' om värdet är numeriskt
-        // (variabel som kontrolleras, parameter som initieras)
+        // 'valdRad' = ska kontrolleras, 'radnr' = resultatet
         public string GetNextRoom(string valdRad) {
             int radnr;
             if (Int32.TryParse(valdRad, out radnr)){

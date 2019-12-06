@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 namespace C_Museum
 {    
-    // klass cRum innehåller id för rum och rummets beskrivning
+    // klass cRum visar id för rum och rummets beskrivning
     public class cRum {
-        // klassens attribut
-        private string[,] rumsBeskrivning = {
+        // information om varje rum
+        // static = klassvariabel, ej per skapat objekt
+        static private string[,] rumsBeskrivning = {
             {"1", "Entre"},
             {"2", "Korridor"},
             {"3", "Gröna rummet"},
@@ -18,32 +19,30 @@ namespace C_Museum
             {"8", "Vita rummet"}
         };
 
+        // attribut ej läsbara utanför klassen
         private string rumId;
         private string beskrivning;
 
         // constructor
         // rumsid måste anges, beskrivning ligger hårdkodat
+        // skickar tillbaka en instans av klassen
         public cRum(string id) {
             this.rumId = id;
             this.beskrivning = GetBeskrivning(id);
         }
 
-        // rumsid läs och skrivbehörighet från andra klasser
-        // när rumsId ändras, ändras även beskrivningen
+        // properties, läsbehörighet 
         public string RumId { 
             get { return rumId; } 
             set {  
                 rumId = value; 
-            //eskrivning = GetBeskrivning(rumId);
             } 
-        }    
-
-        // beskrivning - läsbehörighet från andra klasser
+        }  
         public string Beskrivning { 
             get { return beskrivning; } 
         }  
 
-        // returnerar rummets beskrivning
+        // returnerar rummets beskrivning  ??????
         // beskrivning ligger lagrat hårdkodat i en array 
         private string GetBeskrivning(string id) {                
             // beräknar antal rader i arrayen
