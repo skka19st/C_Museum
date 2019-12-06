@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace C_Museum
 {
@@ -13,17 +14,20 @@ namespace C_Museum
             string nyttRum = "1";
 
             // loop - vandra runt i rummen
-            // loop tills utgången valts (rumId "0")
+            // tills utgången valts (rumId "0")
             bool fortsatt = true; 
             while (fortsatt) {
-                // börja med blank skärm
+                // visa nytt rum på blank skärm
                 Console.Clear();
 
-                // läs in info om nytt rum från kartan
+                // läs in info om valt rum från kartan
                 cKarta karta = new cKarta(nyttRum);
 
-                // info om valt rum 
-                VisaRumInfo(karta);   
+                // läs in info om ev tavlor i valt rum
+                cTavelLista tavelLista = new cTavelLista(nyttRum);
+
+                // visa info om valt rum och ev tavlor placerade i rummet
+                VisaRumInfo(karta, tavelLista);   
                  
                 // val av nytt rum, "0" = avslut 
                 // continue = hoppar över resten av detta loop-varv            
@@ -68,13 +72,28 @@ namespace C_Museum
         }
 
         // utskrift av information om rummet
-        static public void VisaRumInfo(cKarta karta) {
+        // nuvarande position ligger lagrat på första raden i rumlistan
+        static private void VisaRumInfo(cKarta karta, cTavelLista lista) {
+            // visa nuvarande position
             Console.WriteLine(" ");
             Console.WriteLine("Välkommen till " + karta.rumLista[0].Beskrivning);
-            Console.WriteLine("");
+
+            // lista alla tavlor som finns i rummet
+            // vissa rum saknar tavlor
+            if (lista.tavelLista.Count > 0) {
+                Console.WriteLine("Här finns följande tavlor: ");
+                Console.WriteLine("");
+                for (int ind = 0 ; ind < lista.tavelLista.Count ; ind++) {
+                    Console.Write(lista.tavelLista[ind].Namn);
+                    Console.Write(", ");
+                    Console.Write(lista.tavelLista[ind].Beskrivning);
+                    Console.Write(", Fotograf: ");
+                    Console.WriteLine(lista.tavelLista[ind].Upphov);              
+                } 
+            }
 
             // lista på möjliga val
-            // nuvarande position finns i första raden (ind=1)
+            Console.WriteLine("");
             Console.WriteLine("Gå vidare till: ");
             for (int ind = 1 ; ind < karta.rumLista.Count ; ind++) {
                 Console.Write("val " + ind + ": ");
@@ -82,13 +101,13 @@ namespace C_Museum
             } 
         }  
 
-        static string HemtaNyttVal() {
+        // läs in nytt val från skärmen
+        static private string HemtaNyttVal() {
             Console.WriteLine(" ");              
             Console.WriteLine("Vart vill du gå nu? ");
             Console.Write("Ange önskat nr [0] för att avsluta: ");
             string nyttVal = Console.ReadLine(); 
             return nyttVal;
         }  
-
     }
 }
