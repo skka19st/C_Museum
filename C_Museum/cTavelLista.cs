@@ -26,8 +26,8 @@ namespace C_Museum
             {"Audi", "En röd audi A6", "PJ", "4" }
         };
 
-        // instans-variabel
-        public List<cTavla> tavelLista = new List<cTavla>();
+        // instansvariabler, ej åtkomstbara utifrån
+        private List<cTavla> tavelLista = new List<cTavla>();
 
         // constructor
         // rumsid måste anges
@@ -35,6 +35,11 @@ namespace C_Museum
         public cTavelLista(string rumId) {
             SkapaTavelLista(rumId);
         }
+
+        // properties, läsbehörighet 
+        public List<cTavla> TavelLista { 
+            get { return tavelLista; } 
+        }  
 
         // skapar ett objekt av cTavla för varje tavla som hänger 
         // i angivet rum

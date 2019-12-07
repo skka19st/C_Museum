@@ -37,8 +37,8 @@ namespace C_Museum
             // {"8", "4"}   // Vita rummet --> Röda rummet
         };
 
-        // instans-variabel
-        public List<cRum> rumLista = new List<cRum>();
+        // instansvariabler, ej åtkomstbara utifrån
+        private List<cRum> rumLista = new List<cRum>();
 
         // constructor 
         // rumId "0" innebär utgång, ingen karta skapas
@@ -51,6 +51,11 @@ namespace C_Museum
                 GetOpenRooms(id);
             }
         }
+
+        // properties, läsbehörighet 
+        public List<cRum> RumLista { 
+            get { return rumLista; } 
+        }  
 
         // hämta data om angränsande rum (öppen dörr)
         private void GetOpenRooms(string rumId) {

@@ -44,7 +44,7 @@ namespace C_Museum
                 // nuvarande rum är lagrat först i listan
                 bool giltigtVal = karta.KontrolleraVal(nyttVal);
                 if (!giltigtVal) {
-                    nyttRum = karta.rumLista[0].RumId;
+                    nyttRum = karta.RumLista[0].RumId;
                     continue;
                 }
 
@@ -76,28 +76,28 @@ namespace C_Museum
         static private void VisaRumInfo(cKarta karta, cTavelLista lista) {
             // visa nuvarande position
             Console.WriteLine(" ");
-            Console.WriteLine("Välkommen till " + karta.rumLista[0].Beskrivning);
+            Console.WriteLine("Välkommen till " + karta.RumLista[0].Beskrivning);
 
             // lista alla tavlor som finns i rummet
             // vissa rum saknar tavlor
-            if (lista.tavelLista.Count > 0) {
+            if (lista.TavelLista.Count > 0) {
                 Console.WriteLine("Här finns följande tavlor: ");
                 Console.WriteLine("");
-                for (int ind = 0 ; ind < lista.tavelLista.Count ; ind++) {
-                    Console.Write(lista.tavelLista[ind].Namn);
+                for (int ind = 0 ; ind < lista.TavelLista.Count ; ind++) {
+                    Console.Write(lista.TavelLista[ind].Namn);
                     Console.Write(", ");
-                    Console.Write(lista.tavelLista[ind].Beskrivning);
+                    Console.Write(lista.TavelLista[ind].Beskrivning);
                     Console.Write(", Fotograf: ");
-                    Console.WriteLine(lista.tavelLista[ind].Upphov);              
+                    Console.WriteLine(lista.TavelLista[ind].Upphov);              
                 } 
             }
 
             // lista på möjliga val
             Console.WriteLine("");
             Console.WriteLine("Gå vidare till: ");
-            for (int ind = 1 ; ind < karta.rumLista.Count ; ind++) {
+            for (int ind = 1 ; ind < karta.RumLista.Count ; ind++) {
                 Console.Write("val " + ind + ": ");
-                Console.WriteLine(karta.rumLista[ind].Beskrivning);                
+                Console.WriteLine(karta.RumLista[ind].Beskrivning);                
             } 
         }  
 
