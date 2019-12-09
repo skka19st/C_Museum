@@ -10,18 +10,28 @@ namespace C_Museum
             // börjar med att visa information om programmet
             VisaProgramInfo();
 
+            // används för att testa utgångsvillkor
+            bool fortsatt = true;
+
             // start i entre-rummet
             string nyttRum = "1";
 
+            // användaren väljer museum
+            // enbart val '1' och '2' är tillåtna
+            string museum = HemtaMuseum();
+            if ((museum != "1") && (museum != "2")) {
+                fortsatt = false; 
+            }
+
             // loop - vandra runt i rummen
-            // tills utgången valts (rumId "0")
-            bool fortsatt = true; 
+            // tills utgången valts (rumId "0") 
             while (fortsatt) {
                 // visa nytt rum på blank skärm
                 Console.Clear();
 
-                // läs in info om valt rum från kartan
-                cKarta karta = new cKarta(nyttRum);
+                // läs in info om valt rum och intilliggande rum
+                // valt museum skickas med för att hitta rätt planritning
+                cMuseum karta = new cMuseum(museum, nyttRum);
 
                 // läs in info om ev tavlor i valt rum
                 cTavelLista tavelLista = new cTavelLista(nyttRum);
@@ -56,14 +66,14 @@ namespace C_Museum
         // Program-info visas vid program-start
         static private void VisaProgramInfo() {
             Console.WriteLine(" ");
-            Console.WriteLine("Välkommen till fotomuseet.");
-            Console.WriteLine("Här kan du vandra mellan olika rum och");
-            Console.WriteLine("betrakta en mängd vackra foton.");
-            Console.WriteLine("För varje rum får du information om var du befinner dig ");
-            Console.WriteLine("och vilka rum som är öppna från det rummet.");
-            Console.WriteLine("");
+            Console.WriteLine("Välkommen till Fotomuseet!");
+            Console.WriteLine("Här kan du välja mellan två olika turer.");
+            Console.Write("På den stora turen ges du tillfälle att titta ");
+            Console.WriteLine("in i samtliga rum. ");
+            Console.Write("Den lilla turen går snabbare, men vissa dörrar ");
+            Console.WriteLine("är stängda. ");
             Console.WriteLine("För varje rum kan du välja ett nytt att gå vidare till.");
-            Console.WriteLine("Om du väljer ett rum som inte är öppet, ");
+            Console.WriteLine("Om du försöker välja ett rum som inte är öppet, ");
             Console.WriteLine("kommer du ingenstans.");
             Console.WriteLine("Ange [0] för att avsluta");
             Console.WriteLine("");
@@ -73,7 +83,7 @@ namespace C_Museum
 
         // utskrift av information om rummet
         // nuvarande position ligger lagrat på första raden i rumlistan
-        static private void VisaRumInfo(cKarta karta, cTavelLista lista) {
+        static private void VisaRumInfo(cMuseum karta, cTavelLista lista) {
             // visa nuvarande position
             Console.WriteLine(" ");
             Console.WriteLine("Välkommen till " + karta.RumLista[0].Beskrivning);
@@ -99,6 +109,16 @@ namespace C_Museum
                 Console.Write("val " + ind + ": ");
                 Console.WriteLine(karta.RumLista[ind].Beskrivning);                
             } 
+        }  
+
+        // läs in val av museum från skärmen
+        static private string HemtaMuseum() {
+            Console.WriteLine(" ");              
+            Console.WriteLine("Vilken karta vill du se? ");
+            Console.WriteLine("[1] stora turen - alla rum ");
+            Console.WriteLine("[2] lilla turen - ett urval av rum");
+            string nyttMuseum = Console.ReadLine(); 
+            return nyttMuseum;
         }  
 
         // läs in nytt val från skärmen

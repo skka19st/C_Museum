@@ -6,6 +6,25 @@ namespace C_Museum.test
     public class testCRum
     {
         [Fact]
+        // test av construktor
+        public void testConstructor()
+        {
+            // arrange - testdata 
+            cRum testobj1 = new cRum("1");
+            cRum testobj9 = new cRum("9");
+
+            // act - test-case
+
+            // assert - säkerställa resultat
+            // förväntat värde, faktiskt värde
+            Assert.Equal("1", testobj1.RumId);
+            Assert.Equal("Entre", testobj1.Beskrivning);
+            Assert.Equal("9", testobj9.RumId);
+            Assert.Equal("rumsbeskrivning saknas", testobj9.Beskrivning);
+        }
+
+        [Fact]
+        // koppling rumsid - rumsbeskrivning
         public void KopplingIdBeskrivning()
         {
             // arrange - testdata 
@@ -17,11 +36,9 @@ namespace C_Museum.test
             cRum testobj6 = new cRum("6");
             cRum testobj7 = new cRum("7");
             cRum testobj8 = new cRum("8");
-            cRum testobj9 = new cRum("9");
 
             // act - test-case
 
-            // koppling rumsid - rumsbeskrivning
             // assert - säkerställa resultat
             // förväntat värde, faktiskt värde
             Assert.Equal("1", testobj1.RumId);
@@ -33,7 +50,6 @@ namespace C_Museum.test
             Assert.Equal("Blåa rummet", testobj6.Beskrivning);
             Assert.Equal("Svarta rummet", testobj7.Beskrivning);
             Assert.Equal("Vita rummet", testobj8.Beskrivning);
-            Assert.Equal("rumsbeskrivning saknas", testobj9.Beskrivning);
         }
     }
 }
