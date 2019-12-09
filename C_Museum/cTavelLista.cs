@@ -7,17 +7,18 @@ namespace C_Museum
     // klass cTavellista innehåller en array med information
     // om samtliga tavlor, hårdkodat
     // namn, beskrivning, upphovsmakare och rumsplacering
-    // skapar en lista på tavlor som visas i det aktuella rummet
+    // skapar lista på tavlor som ska visas i det aktuella rummet
     public class cTavelLista {
-        // information om varje tavla
         // static = klassvariabel, ej per skapat objekt
         static private int antKol = 4;
+
+        // information om varje tavla
         static private string[,] tavelBeskrivning = {
             {"Vattenfall", "Helvetesfallet i Dalarna", "Karin", "3" },
             {"Utsikt", "Utsikt över Siljan", "Elin", "3" },
             {"Uppsala by night", "Uppsalas reklamskyltar", "Karin", "6" },
             {"Nos", "Närbild på marsvinsnos", "Elin", "5" },
-            {"Bakljus", "Bromsljus på en bil", "PJ", "5" },
+            {"Bakljus", "Bromsljus på en bil", "Anton", "5" },
             {"Öga", "Närbild på öga", "Anton", "5" },
             {"Handtag", "Närbild på ett dörrhandtag", "Anton", "5" },
             {"Veteranbil", "Audi 100 Sedan, från -76", "PJ", "4" },
@@ -26,15 +27,20 @@ namespace C_Museum
             {"Audi", "En röd audi A6", "PJ", "4" }
         };
 
-        // instans-variabel
-        public List<cTavla> tavelLista = new List<cTavla>();
+        // instansvariabler, ej åtkomstbara utifrån
+        private List<cTavla> tavelLista = new List<cTavla>();
 
         // constructor
-        // rumsid måste anges
+        // urval på placering 
         // skickar tillbaka en instans av klassen (en lista)
         public cTavelLista(string rumId) {
             SkapaTavelLista(rumId);
         }
+
+        // properties, läsbehörighet 
+        public List<cTavla> TavelLista { 
+            get { return tavelLista; } 
+        }  
 
         // skapar ett objekt av cTavla för varje tavla som hänger 
         // i angivet rum

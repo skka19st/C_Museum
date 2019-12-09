@@ -4,56 +4,36 @@ using System.Collections.Generic;
 
 namespace C_Museum
 {    
-    // klass cKarta lagrar planlösningen (i en array)
     // skapar en lista över det rum man för närvarande befinner
     // sig i, och möjliga vägar att gå
-    public class cKarta {
-        // array som visar kopplingen mellan de olika rummen
-        // visar: nuvarande rum, angränsande rum
-        // static = klassvariabel, ej per skapat objekt
-         static private string[,] kartBeskrivning = {
-            {"1", "2"},  // Entre --> Korridor
-            {"2", "1"},  // Korridor --> Entre
-            {"2", "3"},  // Korridor --> Gröna rummet
-            {"3", "2"},  // Gröna rummet --> Korridor
-            {"3", "4"},  // Gröna rummet --> Röda rummet
-            {"3", "6"},  // Gröna rummet --> Blåa rummet
-            {"4", "3"},  // Röda rummet --> Gröna rummet
-            {"4", "5"},  // Röda rummet --> Lila rummet
-            {"5", "4"},  // Lila rummet --> Röda rummet
-            {"5", "6"},  // Lila rummet --> Blåa rummet
-            {"6", "5"},  // Blåa rummet --> Lila rummet
-            {"6", "7"},  // Blåa rummet --> Svarta rummet
-            {"6", "3"},  // Blåa rummet --> Gröna rummet
-            {"6", "8"},  // Blåa rummet --> Vita rummet   kommentera bort vid test
-            {"7", "6"},  // Svarta rummet --> Blåa rummet
-            {"8", "6"}   // Vita rummet --> Blåa rummet   kommentera bort vid test
-
-            // test för att flytta vita rummet till korridoren
-            // kommentera bort motsvarande rader ovanför
-            // {"2", "8"},  // Korridoren --> Vita rummet     
-            // {"8", "2"},  // Vita rummet --> Korridoren
-            // {"4", "8"},  // Röda rummet --> Vita rummet     
-            // {"8", "4"}   // Vita rummet --> Röda rummet
-        };
-
-        // instans-variabel
-        public List<cRum> rumLista = new List<cRum>();
+    // hämtar information om de tavlor som hör till aktuellt rum
+    public class cMuseum {
+        // instansvariabler, ej åtkomstbara utifrån
+        private List<cRum> rumLista = new List<cRum>();
 
         // constructor 
         // rumId "0" innebär utgång, ingen karta skapas
         // nuvarande position måste anges, läggs först i listan
         // listan fylls på med ev angränsande rum
-        public cKarta(string id) {
+        public cMuseum(string museum, string id) {
             if (id != "0") {
                 cRum rum = new cRum(id);
                 rumLista.Add(rum);
-                GetOpenRooms(id);
+                GetOpenRooms(museum, id);
             }
         }
 
+        // properties, läsbehörighet 
+        public List<cRum> RumLista { 
+            get { return rumLista; } 
+        }  
+
         // hämta data om angränsande rum (öppen dörr)
-        private void GetOpenRooms(string rumId) {
+        // olika planlösningar hämtas beroende på valt museum
+        public void GetOpenRooms(string museum, string rumId) {
+            // aktuell planritning hämtas
+            string[,] kartBeskrivning = HemtaPlanritning(museum);
+
             // array-uppbyggnaden = [rad, kolumn]
             // antal rader i arrayen = antalet element / antal kolumner
             int antRad = (kartBeskrivning.Length / kartBeskrivning.Rank);  
@@ -66,6 +46,22 @@ namespace C_Museum
                 }
             }
         }
+        
+        // läs in planritning för valt museum
+        private string[,] HemtaPlanritning(string museum) {
+            // stora fotorundan
+            if (museum == "1") {              
+                return cFoto.kartBeskrivning;
+            }
+
+            // lilla fotorundan
+            if (museum == "2") {                   
+                return cFotoMini.kartBeskrivning;
+            }
+
+            // ingen planritning hittades
+            return null;
+        }  
 
         // kontroll av val som användaren givit
         public bool KontrolleraVal(string valdRad) {

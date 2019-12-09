@@ -19,7 +19,7 @@ namespace C_Museum
             {"8", "Vita rummet"}
         };
 
-        // attribut ej läsbara utanför klassen
+        // instansvariabler, ej åtkomstbara utifrån
         private string rumId;
         private string beskrivning;
 
@@ -34,15 +34,12 @@ namespace C_Museum
         // properties, läsbehörighet 
         public string RumId { 
             get { return rumId; } 
-            set {  
-                rumId = value; 
-            } 
         }  
         public string Beskrivning { 
             get { return beskrivning; } 
         }  
 
-        // returnerar rummets beskrivning  ??????
+        // returnerar rummets beskrivning 
         // beskrivning ligger lagrat hårdkodat i en array 
         private string GetBeskrivning(string id) {                
             // beräknar antal rader i arrayen

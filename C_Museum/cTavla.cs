@@ -7,7 +7,7 @@ namespace C_Museum
     // klass cTavla innehåller info om tavlor
     // namn, beskrivning, upphovsmakare och rumsplacering
     public class cTavla {
-        // attribut ej läsbara utanför klassen
+        // instansvariabler, ej åtkomstbara utifrån
         private string namn;
         private string beskrivning;
         private string upphovsmakare;
